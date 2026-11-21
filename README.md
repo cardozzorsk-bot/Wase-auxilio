@@ -1,1 +1,0 @@
-# Wase-auxilio
