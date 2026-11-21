@@ -1,25 +1,593 @@
+
+
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#09070f"><title>WASE | Painel</title><style>
-:root{--bg:#09070f;--panel:#171020;--line:#38234a;--purple:#963cf0;--pink:#ff2da6;--txt:#f8f2ff;--muted:#ad9fba}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#29103d,transparent 38%),var(--bg);color:var(--txt);font:15px system-ui,Arial}.wrap{max-width:980px;margin:auto;padding:18px}.card{background:linear-gradient(150deg,#1b1227,#100c17);border:1px solid var(--line);border-radius:18px;padding:20px;margin:12px 0}.brand{font-size:24px;font-weight:900;letter-spacing:4px;display:flex;align-items:center;gap:10px}.logo{background:linear-gradient(130deg,var(--purple),var(--pink));width:42px;height:42px;border-radius:13px;display:grid;place-items:center}.muted{color:var(--muted);font-size:13px}.field{width:100%;background:#0c0912;border:1px solid var(--line);padding:13px;border-radius:10px;color:white;margin:7px 0 12px}.btn{background:#2b1b3a;border:1px solid #654087;color:white;padding:12px 16px;border-radius:11px;font-weight:750;cursor:pointer}.primary{background:linear-gradient(100deg,#792ad0,#e52b9d);border:0}.full{width:100%}.hidden{display:none!important}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{font-size:27px;font-weight:900}.toggle{accent-color:#d12cda;width:22px;height:22px}.divider{height:1px;background:var(--line);margin:15px 0}.key{padding:13px;border:1px solid var(--line);border-radius:12px;margin:9px 0}.tag{font-size:11px;color:#8ce7bd}.danger{color:#ff9db4}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}h1{font-size:24px;margin:10px 0}h2{font-size:17px;margin:0 0 12px}@media(max-width:600px){.grid{grid-template-columns:1fr}.wrap{padding:12px}}
-</style></head><body><main class="wrap">
-<header class="top"><div class="brand"><span class="logo">W</span>WASE</div><span class="muted" id="modeLabel">ÁREA DO CLIENTE</span></header>
-<section id="clientLogin" class="card"><h1>Acesso do cliente</h1><p class="muted">Digite sua Key para acessar somente suas funções.</p><input id="clientKey" class="field" placeholder="WASE_0000-XXXX" autocomplete="off"><button id="clientEnter" class="btn primary full">ENTRAR</button><p id="clientMsg" class="muted"></p></section>
-<section id="clientArea" class="hidden"><div class="card"><div class="row"><div><h1>Bem-vindo à WASE</h1><p class="muted" id="clientInfo">Acesso validado.</p></div><button class="btn" id="clientExit">SAIR</button></div></div><div class="card"><h2>Acesso rápido</h2><button id="injectMenuToggle" class="btn primary full" type="button" aria-expanded="false" aria-controls="injectOptions">INJETAR 😈</button><div id="injectOptions" class="hidden" style="margin-top:14px"><p class="muted">Selecione a versão do jogo:</p><div class="grid"><button type="button" class="btn version-choice" data-version="max">INJETAR FF MAX</button><button type="button" class="btn version-choice" data-version="normal">INJETAR FF NORMAL</button></div></div><p id="injectMsg" class="muted" aria-live="polite">Toque em INJETAR 😈 para ver as opções.</p><p class="muted">Interface demonstrativa: as opções não injetam código nem modificam o Free Fire.</p></div><div class="card"><h2>Funções iniciais</h2><div class="row"><span>No recoil</span><input class="toggle pref" type="checkbox"></div><div class="divider"></div><div class="row"><span>Manter disparos na cabeça</span><input class="toggle pref" type="checkbox"></div><div class="divider"></div><div class="row"><span>Remover “tremedeiras”</span><input class="toggle pref" type="checkbox"></div><div class="divider"></div><div class="row"><span>Brute aimlock</span><input class="toggle pref" type="checkbox"></div></div><div class="card"><h2>Funções extras</h2><div class="row"><span>Aim assist</span><input class="toggle pref" type="checkbox"></div><div class="divider"></div><div class="row"><span>Remover delay</span><input class="toggle pref" type="checkbox"></div><div class="divider"></div><div class="row"><span>Controle de mira</span><input class="toggle pref" type="checkbox"></div><p class="muted">Estes controles são apenas preferências de interface; não modificam o jogo nem injetam código.</p></div></section>
-<section id="adminLogin" class="card hidden"><h1>Administração WASE</h1><p class="muted">Acesso reservado ao administrador.</p><input id="adminEmail" class="field" type="email" placeholder="E-mail do administrador"><input id="adminPass" class="field" type="password" placeholder="Senha"><button id="adminEnter" class="btn primary full">ENTRAR COMO ADMIN</button><p id="adminMsg" class="muted"></p><a href="./" class="muted">Voltar à área do cliente</a></section>
-<section id="adminArea" class="hidden"><div class="top"><div><h1>Administração</h1><p class="muted">Área privada • somente contas autorizadas</p></div><button class="btn" id="adminExit">SAIR</button></div><div class="grid"><div class="card"><div class="muted">TOTAL DE KEYS</div><div class="stat" id="total">0</div></div><div class="card"><div class="muted">KEYS ATIVAS</div><div class="stat" id="active">0</div></div><div class="card"><div class="muted">BLOQUEADAS</div><div class="stat" id="blocked">0</div></div><div class="card"><div class="muted">CLIENTES VINCULADOS</div><div class="stat" id="clients">0</div></div></div><div class="card"><h2>Gerar Key</h2><label class="muted">Validade</label><select id="days" class="field"><option value="1">1 dia</option><option value="7">7 dias</option><option value="15">15 dias</option><option value="30" selected>30 dias</option><option value="90">90 dias</option></select><button id="generate" class="btn primary full">GERAR NOVA KEY</button><p id="generated" class="muted"></p></div><div class="card"><h2>Vincular cliente</h2><input id="bindKey" class="field" placeholder="Key"><input id="bindName" class="field" placeholder="Nome do cliente"><input id="bindDevice" class="field" placeholder="Identificação do dispositivo"><button id="bind" class="btn full">VINCULAR CLIENTE</button></div><div class="card"><h2>Keys e clientes</h2><div id="keysList"></div></div></section>
-<footer class="muted" style="text-align:center;padding:20px">WASE • Acesso de clientes e administração separados</footer></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-// Configure estes dois valores com os dados do seu projeto Supabase.
-const SUPABASE_URL='https://feknguevdleezfcxnuni.supabase.co';const SUPABASE_ANON_KEY='sb_publishable_SZw4V6sCsty0MnJSy959tQ_OqYAJZIv';
-const configured=SUPABASE_URL.startsWith('https://')&&(SUPABASE_ANON_KEY.startsWith('ey')||SUPABASE_ANON_KEY.startsWith('sb_publishable_'));const db=configured?supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;const $=id=>document.getElementById(id);const adminMode=new URLSearchParams(location.search).get('admin')==='1';
-function show(id,on=true){$(id).classList.toggle('hidden',!on)}function msg(id,t){$(id).textContent=t}
-if(adminMode){$('modeLabel').textContent='ÁREA RESTRITA';show('clientLogin',false);show('adminLogin',true)}
-$('clientEnter').onclick=async()=>{if(!db)return msg('clientMsg','Configure primeiro a conexão com o Supabase.');const code=$('clientKey').value.trim();if(!code)return msg('clientMsg','Digite sua Key.');const {data,error}=await db.rpc('client_validate_key',{p_code:code});if(error||!data||!data.length)return msg('clientMsg','Key inválida, expirada ou bloqueada.');sessionStorage.setItem('wase_client_key',code);$('clientInfo').textContent='Key válida • expira em '+new Date(data[0].expires_at).toLocaleDateString('pt-BR');show('clientLogin',false);show('clientArea',true)};
-$('clientExit').onclick=()=>{sessionStorage.removeItem('wase_client_key');show('clientArea',false);show('clientLogin',true)};
-$('injectMenuToggle').onclick=()=>{const options=$('injectOptions');const opening=options.classList.contains('hidden');show('injectOptions',opening);$('injectMenuToggle').setAttribute('aria-expanded',String(opening));msg('injectMsg',opening?'Escolha: Free Fire MAX ou Free Fire normal.':'Menu fechado.')};document.querySelectorAll('.version-choice').forEach(button=>{button.addEventListener('click',()=>{const version=button.dataset.version;msg('injectMsg','Opção selecionada: '+(version==='max'?'Free Fire MAX':'Free Fire normal')+'. Interface demonstrativa — nenhum código foi injetado no jogo.');show('injectOptions',false);$('injectMenuToggle').setAttribute('aria-expanded','false')})});
-$('adminEnter').onclick=async()=>{if(!db)return msg('adminMsg','Configure primeiro a conexão com o Supabase.');const {error}=await db.auth.signInWithPassword({email:$('adminEmail').value.trim(),password:$('adminPass').value});if(error)return msg('adminMsg','Não foi possível entrar. Confira o acesso autorizado.');const {data, error:e}=await db.rpc('admin_is_authorized');if(e||data!==true){await db.auth.signOut();return msg('adminMsg','Esta conta não possui permissão administrativa.')}show('adminLogin',false);show('adminArea',true);await loadAdmin()};
-$('adminExit').onclick=async()=>{await db?.auth.signOut();show('adminArea',false);show('adminLogin',true)};
-async function loadAdmin(){const {data,error}=await db.rpc('admin_list_keys');if(error)return msg('adminMsg','Erro ao carregar dados: '+error.message);const rows=data||[];$('total').textContent=rows.length;$('active').textContent=rows.filter(x=>!x.blocked&&new Date(x.expires_at)>new Date()).length;$('blocked').textContent=rows.filter(x=>x.blocked).length;$('clients').textContent=rows.filter(x=>x.client_name).length;$('keysList').innerHTML='';rows.forEach(k=>{const el=document.createElement('div');el.className='key';const title=document.createElement('b');title.textContent=k.code;const info=document.createElement('p');info.className='muted';info.textContent='Cliente: '+(k.client_name||'Não vinculado')+' • Dispositivo: '+(k.device_id||'Não vinculado')+' • Expira: '+new Date(k.expires_at).toLocaleDateString('pt-BR')+' • '+(k.blocked?'BLOQUEADA':'ATIVA');const actions=document.createElement('div');actions.className='row';const toggle=document.createElement('button');toggle.className='btn';toggle.textContent=k.blocked?'DESBLOQUEAR':'BLOQUEAR';toggle.onclick=async()=>{await db.rpc('admin_set_key_blocked',{p_id:k.id,p_blocked:!k.blocked});loadAdmin()};const del=document.createElement('button');del.className='btn danger';del.textContent='EXCLUIR';del.onclick=async()=>{if(confirm('Excluir esta Key?')){await db.rpc('admin_delete_key',{p_id:k.id});loadAdmin()}};actions.append(toggle,del);el.append(title,info,actions);$('keysList').append(el)})}
-$('generate').onclick=async()=>{const digits=crypto.getRandomValues(new Uint8Array(4));const letters=crypto.getRandomValues(new Uint8Array(4));const code='WASE_'+Array.from(digits,x=>x%10).join('')+'-'+Array.from(letters,x=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[x%24]).join('');const {error}=await db.rpc('admin_create_key',{p_code:code,p_days:Number($('days').value)});if(error)return msg('generated','Erro: '+error.message);msg('generated','Key criada: '+code);loadAdmin()};
-$('bind').onclick=async()=>{const {error}=await db.rpc('admin_bind_key',{p_code:$('bindKey').value.trim(),p_client_name:$('bindName').value.trim(),p_device_id:$('bindDevice').value.trim()});if(error)return alert('Não foi possível vincular: '+error.message);$('bindKey').value=$('bindName').value=$('bindDevice').value='';alert('Cliente vinculado.');loadAdmin()};
-</script></body></html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<meta name="theme-color" content="#09070f">
+
+<title>WASE | Painel</title>
+
+<style>
+
+:root{--bg:#09070f;--panel:#171020;--line:#38234a;--purple:#963cf0;--pink:#ff2da6;--txt:#f8f2ff;--muted:#ad9fba}
+
+*{box-sizing:border-box}
+
+body{margin:0;background:radial-gradient(circle at 80% 0,#29103d,transparent 38%),var(--bg);color:var(--txt);font:15px system-ui,Arial}
+
+.wrap{max-width:980px;margin:auto;padding:18px}
+
+.card{background:linear-gradient(150deg,#1b1227,#100c17);border:1px solid var(--line);border-radius:18px;padding:20px;margin:12px 0}
+
+.brand{font-size:24px;font-weight:900;letter-spacing:4px;display:flex;align-items:center;gap:10px}
+
+.logo{background:linear-gradient(130deg,var(--purple),var(--pink));width:42px;height:42px;border-radius:13px;display:grid;place-items:center}
+
+.muted{color:var(--muted);font-size:13px}
+
+.field{width:100%;background:#0c0912;border:1px solid var(--line);padding:13px;border-radius:10px;color:white;margin:7px 0 12px}
+
+.btn{background:#2b1b3a;border:1px solid #654087;color:white;padding:12px 16px;border-radius:11px;font-weight:750;cursor:pointer}
+
+.primary{background:linear-gradient(100deg,#792ad0,#e52b9d);border:0}
+
+.full{width:100%}
+
+.hidden{display:none!important}
+
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+
+.stat{font-size:27px;font-weight:900}
+
+.toggle{accent-color:#d12cda;width:22px;height:22px}
+
+.divider{height:1px;background:var(--line);margin:15px 0}
+
+.key{padding:13px;border:1px solid var(--line);border-radius:12px;margin:9px 0}
+
+.danger{color:#ff9db4}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+h1{font-size:24px;margin:10px 0}
+
+h2{font-size:17px;margin:0 0 12px}
+
+@media(max-width:600px){.grid{grid-template-columns:1fr}.wrap{padding:12px}}
+
+</style>
+
+</head>
+
+<body>
+
+<main class="wrap">
+
+<header class="top">
+
+<div class="brand"><span class="logo">W</span>WASE</div>
+
+<span class="muted" id="modeLabel">ÁREA DO CLIENTE</span>
+
+</header>
+
+<section id="clientLogin" class="card">
+
+<h1>Acesso do cliente</h1>
+
+<p class="muted">Digite sua Key para acessar somente suas funções.</p>
+
+<input id="clientKey" class="field" placeholder="WASE_0000-XXXX" autocomplete="off">
+
+<button id="clientEnter" class="btn primary full">ENTRAR</button>
+
+<p id="clientMsg" class="muted"></p>
+
+</section>
+
+<section id="clientArea" class="hidden">
+
+<div class="card">
+
+<div class="row">
+
+<div>
+
+<h1>Bem-vindo à WASE</h1>
+
+<p class="muted" id="clientInfo">Acesso validado.</p>
+
+</div>
+
+<button class="btn" id="clientExit">SAIR</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Acesso rápido</h2>
+
+<button id="injectMenuToggle" class="btn primary full" type="button" aria-expanded="false" aria-controls="injectOptions">
+
+INJETAR 😈
+
+</button>
+
+<div id="injectOptions" class="hidden" style="margin-top:14px">
+
+<p class="muted">Selecione a versão do jogo:</p>
+
+<div class="grid">
+
+<button type="button" class="btn version-choice" data-version="max">INJETAR FF MAX</button>
+
+<button type="button" class="btn version-choice" data-version="normal">INJETAR FF NORMAL</button>
+
+</div>
+
+</div>
+
+<p id="injectMsg" class="muted" aria-live="polite">Toque em INJETAR 😈 para ver as opções.</p>
+
+</div>
+
+<div class="card">
+
+<h2>Funções iniciais</h2>
+
+<div class="row"><span>No recoil</span><input class="toggle pref" type="checkbox"></div>
+
+<div class="divider"></div>
+
+<div class="row"><span>Manter disparos na cabeça</span><input class="toggle pref" type="checkbox"></div>
+
+<div class="divider"></div>
+
+<div class="row"><span>Remover “tremedeiras”</span><input class="toggle pref" type="checkbox"></div>
+
+<div class="divider"></div>
+
+<div class="row"><span>Brute aimlock</span><input class="toggle pref" type="checkbox"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Funções extras</h2>
+
+<div class="row"><span>Aim assist</span><input class="toggle pref" type="checkbox"></div>
+
+<div class="divider"></div>
+
+<div class="row"><span>Remover delay</span><input class="toggle pref" type="checkbox"></div>
+
+<div class="divider"></div>
+
+<div class="row"><span>Controle de mira</span><input class="toggle pref" type="checkbox"></div>
+
+</div>
+
+</section>
+
+<section id="adminLogin" class="card hidden">
+
+<h1>Administração WASE</h1>
+
+<p class="muted">Acesso reservado ao administrador.</p>
+
+<input id="adminEmail" class="field" type="email" placeholder="E-mail do administrador">
+
+<input id="adminPass" class="field" type="password" placeholder="Senha">
+
+<button id="adminEnter" class="btn primary full">ENTRAR COMO ADMIN</button>
+
+<p id="adminMsg" class="muted"></p>
+
+<a href="./" class="muted">Voltar à área do cliente</a>
+
+</section>
+
+<section id="adminArea" class="hidden">
+
+<div class="top">
+
+<div>
+
+<h1>Administração</h1>
+
+<p class="muted">Área privada • somente contas autorizadas</p>
+
+</div>
+
+<button class="btn" id="adminExit">SAIR</button>
+
+</div>
+
+<div class="grid">
+
+<div class="card"><div class="muted">TOTAL DE KEYS</div><div class="stat" id="total">0</div></div>
+
+<div class="card"><div class="muted">KEYS ATIVAS</div><div class="stat" id="active">0</div></div>
+
+<div class="card"><div class="muted">BLOQUEADAS</div><div class="stat" id="blocked">0</div></div>
+
+<div class="card"><div class="muted">CLIENTES VINCULADOS</div><div class="stat" id="clients">0</div></div>
+
+</div>
+
+<div class="card">
+
+<h2>Gerar Key</h2>
+
+<label class="muted">Validade</label>
+
+<select id="days" class="field">
+
+<option value="1">1 dia</option>
+
+<option value="7">7 dias</option>
+
+<option value="15">15 dias</option>
+
+<option value="30" selected>30 dias</option>
+
+<option value="90">90 dias</option>
+
+</select>
+
+<button id="generate" class="btn primary full">GERAR NOVA KEY</button>
+
+<p id="generated" class="muted"></p>
+
+</div>
+
+<div class="card">
+
+<h2>Vincular cliente</h2>
+
+<input id="bindKey" class="field" placeholder="Key">
+
+<input id="bindName" class="field" placeholder="Nome do cliente">
+
+<input id="bindDevice" class="field" placeholder="Identificação do dispositivo">
+
+<button id="bind" class="btn full">VINCULAR CLIENTE</button>
+
+</div>
+
+<div class="card">
+
+<h2>Keys e clientes</h2>
+
+<div id="keysList"></div>
+
+</div>
+
+</section>
+
+<footer class="muted" style="text-align:center;padding:20px">
+
+WASE • Acesso de clientes e administração separados
+
+</footer>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL='https://feknguevdleezfcxnuni.supabase.co';
+
+const SUPABASE_ANON_KEY='sb_publishable_SZw4V6sCsty0MnJSy959tQ_OqYAJZIv';
+
+const configured=SUPABASE_URL.startsWith('https://') &&
+
+(SUPABASE_ANON_KEY.startsWith('ey') || SUPABASE_ANON_KEY.startsWith('sb_publishable_'));
+
+const db=configured?supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
+
+const $=id=>document.getElementById(id);
+
+const adminMode=new URLSearchParams(location.search).get('admin')==='1';
+
+function show(id,on=true){
+
+$(id).classList.toggle('hidden',!on);
+
+}
+
+function msg(id,t){
+
+$(id).textContent=t;
+
+}
+
+if(adminMode){
+
+$('modeLabel').textContent='ÁREA RESTRITA';
+
+show('clientLogin',false);
+
+show('adminLogin',true);
+
+}
+
+$('clientEnter').onclick=async()=>{
+
+if(!db)return msg('clientMsg','Configure primeiro a conexão com o Supabase.');
+
+const code=$('clientKey').value.trim();
+
+if(!code)return msg('clientMsg','Digite sua Key.');
+
+const {data,error}=await db.rpc('client_validate_key',{p_code:code});
+
+if(error||!data||!data.length){
+
+return msg('clientMsg','Key inválida, expirada ou bloqueada.');
+
+}
+
+sessionStorage.setItem('wase_client_key',code);
+
+$('clientInfo').textContent='Key válida • expira em '+
+
+new Date(data[0].expires_at).toLocaleDateString('pt-BR');
+
+show('clientLogin',false);
+
+show('clientArea',true);
+
+};
+
+$('clientExit').onclick=()=>{
+
+sessionStorage.removeItem('wase_client_key');
+
+show('clientArea',false);
+
+show('clientLogin',true);
+
+};
+
+$('injectMenuToggle').onclick=()=>{
+
+const options=$('injectOptions');
+
+const opening=options.classList.contains('hidden');
+
+show('injectOptions',opening);
+
+$('injectMenuToggle').setAttribute('aria-expanded',String(opening));
+
+msg('injectMsg',opening?
+
+'Escolha: Free Fire MAX ou Free Fire normal.':
+
+'Menu fechado.');
+
+};
+
+document.querySelectorAll('.version-choice').forEach(button=>{
+
+button.addEventListener('click',()=>{
+
+const version=button.dataset.version;
+
+msg('injectMsg','Opção selecionada: '+
+
+(version==='max'?'Free Fire MAX':'Free Fire normal')+'.');
+
+show('injectOptions',false);
+
+$('injectMenuToggle').setAttribute('aria-expanded','false');
+
+});
+
+});
+
+$('adminEnter').onclick=async()=>{
+
+if(!db)return msg('adminMsg','Configure primeiro a conexão com o Supabase.');
+
+const {error}=await db.auth.signInWithPassword({
+
+email:$('adminEmail').value.trim(),
+
+password:$('adminPass').value
+
+});
+
+if(error)return msg('adminMsg','Não foi possível entrar. Confira o acesso autorizado.');
+
+const {data,error:e}=await db.rpc('admin_is_authorized');
+
+if(e||data!==true){
+
+await db.auth.signOut();
+
+return msg('adminMsg','Esta conta não possui permissão administrativa.');
+
+}
+
+show('adminLogin',false);
+
+show('adminArea',true);
+
+await loadAdmin();
+
+};
+
+$('adminExit').onclick=async()=>{
+
+await db?.auth.signOut();
+
+show('adminArea',false);
+
+show('adminLogin',true);
+
+};
+
+async function loadAdmin(){
+
+const {data,error}=await db.rpc('admin_list_keys');
+
+if(error)return msg('adminMsg','Erro ao carregar dados: '+error.message);
+
+const rows=data||[];
+
+$('total').textContent=rows.length;
+
+$('active').textContent=rows.filter(x=>!x.blocked&&new Date(x.expires_at)>new Date()).length;
+
+$('blocked').textContent=rows.filter(x=>x.blocked).length;
+
+$('clients').textContent=rows.filter(x=>x.client_name).length;
+
+$('keysList').innerHTML='';
+
+rows.forEach(k=>{
+
+const el=document.createElement('div');
+
+el.className='key';
+
+const title=document.createElement('b');
+
+title.textContent=k.code;
+
+const info=document.createElement('p');
+
+info.className='muted';
+
+info.textContent='Cliente: '+(k.client_name||'Não vinculado')+
+
+' • Dispositivo: '+(k.device_id||'Não vinculado')+
+
+' • Expira: '+new Date(k.expires_at).toLocaleDateString('pt-BR')+
+
+' • '+(k.blocked?'BLOQUEADA':'ATIVA');
+
+const actions=document.createElement('div');
+
+actions.className='row';
+
+const toggle=document.createElement('button');
+
+toggle.className='btn';
+
+toggle.textContent=k.blocked?'DESBLOQUEAR':'BLOQUEAR';
+
+toggle.onclick=async()=>{
+
+await db.rpc('admin_set_key_blocked',{
+
+p_id:k.id,
+
+p_blocked:!k.blocked
+
+});
+
+loadAdmin();
+
+};
+
+const del=document.createElement('button');
+
+del.className='btn danger';
+
+del.textContent='EXCLUIR';
+
+del.onclick=async()=>{
+
+if(confirm('Excluir esta Key?')){
+
+await db.rpc('admin_delete_key',{p_id:k.id});
+
+loadAdmin();
+
+}
+
+};
+
+actions.append(toggle,del);
+
+el.append(title,info,actions);
+
+$('keysList').append(el);
+
+});
+
+}
+
+$('generate').onclick=async()=>{
+
+const digits=crypto.getRandomValues(new Uint8Array(4));
+
+const letters=crypto.getRandomValues(new Uint8Array(4));
+
+const code='WASE_'+
+
+Array.from(digits,x=>x%10).join('')+'-'+
+
+Array.from(letters,x=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[x%24]).join('');
+
+const {error}=await db.rpc('admin_create_key',{
+
+p_code:code,
+
+p_days:Number($('days').value)
+
+});
+
+if(error)return msg('generated','Erro: '+error.message);
+
+msg('generated','Key criada: '+code);
+
+loadAdmin();
+
+};
+
+$('bind').onclick=async()=>{
+
+const {error}=await db.rpc('admin_bind_key',{
+
+p_code:$('bindKey').value.trim(),
+
+p_client_name:$('bindName').value.trim(),
+
+p_device_id:$('bindDevice').value.trim()
+
+});
+
+if(error)return alert('Não foi possível vincular: '+error.message);
+
+$('bindKey').value='';
+
+$('bindName').value='';
+
+$('bindDevice').value='';
+
+alert('Cliente vinculado.');
+
+loadAdmin();
+
+};
+
+</script>
+
+</body>
+
+</html>
